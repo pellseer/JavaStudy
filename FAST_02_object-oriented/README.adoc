@@ -1,0 +1,56 @@
+= Fast Campus Java
+
+:icons: font
+:Author: Byeongsoon Jang
+:Email: byeongsoon94@gmail.com
+:Date: 2021.01.10
+:Revision: 1.0
+:imagesdir: ./image
+
+패스트캠퍼스 'Java 웹 개발 마스터 올인원 패키지 Online 강좌 중 Java'의 학습 저장소
+
+Byeongsoon Jang<byeongsoon94@gmail.com>
+
+|===
+|===
+
+== 작성규칙
+
+** 'Java 웹 개발 마스터 올인원 패키지 Online 강좌 중 Java'의 코드를 작성한다.
+** 추가적으로 설명이 필요한 부분이나 중요한 내용은 노션에 정리한 후 링크를 걸어준다.
+** 코드는 직접 작성해야만 기억에 남는다는 생각으로 작성한다.
+** 빨리 끝내는게 중요한게 아니라 완벽히 내 것으로 만드는게 중요하다.
+
+|===
+|===
+
+== 목표
+
+** Spring, Spring boot를 학습하기 전 Java 기초부터 다진다.
+** 이 강좌를 꼼꼼히 학습하여 이후에 진행될 Spring, Spring Boot 프로젝트에 도움이 되도록한다.
+
+== 학습 내용
+
+** 변수와 자료형
+** 연산자
+** 제어문
+** 클래스와 객체
+** 배열이란
+** 객체 배열
+** 다차원 배열
+** ArrayList 사용하기
+** 상속이란
+** 다형성
+** 추상클래스
+** 인터페이스
+** Object 클래스
+** Class 클래스
+** String, Wrapper 클래스
+** 재네릭 프로그래밍
+** 컬렉션 프레임워크란
+** List 인터페이스
+** 람다식
+** 스트림
+** 예외와 예외 처리
+** 입출력 스트림
+** Thread
