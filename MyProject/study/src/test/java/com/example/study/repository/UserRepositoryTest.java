@@ -20,7 +20,7 @@ public class UserRepositoryTest extends StudyApplicationTests {
     @Test
     public void create(){
         User user = new User();
-        user.setAccount("TestUser03");
+        user.setAccount("TestUser04");
         user.setEmail("TestUser03@gmai.com");
         user.setPhoneNumber("010-0000-3333");
         user.setCreatedAt(LocalDateTime.now());

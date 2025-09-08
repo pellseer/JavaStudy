@@ -17,7 +17,7 @@ public class ItemRepositoryTest extends StudyApplicationTests {
     @Test
     public void create(){
         Item item = new Item();
-        item.setName("노트북");
+        item.setName("노트북2");
         item.setPrice(100000);
         item.setContent("삼성 노트북");
 
