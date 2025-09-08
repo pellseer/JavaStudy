@@ -4,7 +4,9 @@ import com.example.study.StudyApplicationTests;
 import com.example.study.model.entity.OrderDetail;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.Assert;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class OrderDetailRepositoryTest extends StudyApplicationTests {
@@ -14,12 +16,17 @@ public class OrderDetailRepositoryTest extends StudyApplicationTests {
 
     @Test
     public void create(){
-        OrderDetail orderdetail = new OrderDetail();
+        OrderDetail orderDetail = new OrderDetail();
+        orderDetail.setStatus("WAITING");
+        orderDetail.setArrivalDate(LocalDateTime.now().plusDays(2));
+        orderDetail.setQuantity(1);
+        orderDetail.setTotalPrice(BigDecimal.valueOf(100000));
+        orderDetail.setCreatedAt(LocalDateTime.now());
+        orderDetail.setCreatedBy("Partner01");
+        //orderDetail.setOrderGroupId(1L);
+        //orderDetail.setItemId(1L);
 
-        orderdetail.setOrderAt(LocalDateTime.now());
-        //orderdetail.setUserId(1L);
-        //orderdetail.setItemId(1L);
-
-        OrderDetail newOrderDetail = orderDetailRepository.save(orderdetail);
+        OrderDetail newOrderDetail = orderDetailRepository.save(orderDetail);
+        Assert.notNull(newOrderDetail,"newOrderDetail be null");
     }
 }

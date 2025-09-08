@@ -1,39 +1,32 @@
 package com.example.study.model.entity;
 
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@ToString(exclude = {"orderGroup","item"})
-public class OrderDetail {
+public class AdminUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String account;
+    private String password;
     private String status;
-    private LocalDateTime arrivalDate;
-    private Integer quantity;
-    private BigDecimal totalPrice;
+    private String role;
+    private LocalDateTime lastLoginAt;
+    private LocalDateTime passwordUpdatedAt;
+    private int loginFailCount;
+    private LocalDateTime registeredAt;
+    @Column(name="unregistered_at")
+    private LocalDateTime unRegisteredAt;
     private LocalDateTime createdAt;
     private String createdBy;
     private LocalDateTime updatedAt;
     private String updatedBy;
-
-    // OrderDetail N : 1 Item
-    @ManyToOne
-    private Item item;
-
-    // OrderDetail N : 1 OrderGroup
-    @ManyToOne
-    private OrderGroup orderGroup;
-
 }

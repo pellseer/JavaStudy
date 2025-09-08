@@ -1,39 +1,31 @@
 package com.example.study.model.entity;
 
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
-@Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Data
 @Entity
-@ToString(exclude = {"orderGroup","item"})
-public class OrderDetail {
+@ToString(exclude = {"partnerList"})
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String status;
-    private LocalDateTime arrivalDate;
-    private Integer quantity;
-    private BigDecimal totalPrice;
+    private String type;
+    private String title;
     private LocalDateTime createdAt;
     private String createdBy;
     private LocalDateTime updatedAt;
     private String updatedBy;
 
-    // OrderDetail N : 1 Item
-    @ManyToOne
-    private Item item;
-
-    // OrderDetail N : 1 OrderGroup
-    @ManyToOne
-    private OrderGroup orderGroup;
-
+    // Category 1 : N Partner
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
+    private List<Partner> partnerList;
 }
