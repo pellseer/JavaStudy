@@ -1,10 +1,8 @@
 package com.example.study.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDateTime;
@@ -15,6 +13,8 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @ToString(exclude = {"orderGroup"})
+@Builder
+@Accessors(chain = true)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

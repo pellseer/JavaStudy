@@ -1,10 +1,8 @@
 package com.example.study.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,6 +12,8 @@ import java.util.List;
 @Data
 @Entity
 @ToString(exclude = {"itemList","category"})
+@Builder
+@Accessors(chain = true)
 public class Partner {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
