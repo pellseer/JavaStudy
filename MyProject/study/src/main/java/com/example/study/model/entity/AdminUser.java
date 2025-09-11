@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 @Entity
 @Builder
 @Accessors(chain = true)
+@EntityListeners(AuditingEntityListener.class)
 public class AdminUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,12 +35,16 @@ public class AdminUser {
     private LocalDateTime registeredAt;
     @Column(name="unregistered_at")
     private LocalDateTime unRegisteredAt;
+
     @CreatedDate
     private LocalDateTime createdAt;
+
     @CreatedBy
     private String createdBy;
+
     @LastModifiedDate
     private LocalDateTime updatedAt;
+
     @LastModifiedBy
     private String updatedBy;
 }
