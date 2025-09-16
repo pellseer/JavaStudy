@@ -1,5 +1,6 @@
 package com.example.study.model.entity;
 
+import com.example.study.model.enumclass.ItemStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -22,15 +23,24 @@ import java.util.List;
 @Accessors(chain = true)
 @EntityListeners(AuditingEntityListener.class)
 public class Item {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String status;
+
+    @Enumerated(EnumType.STRING)
+    private ItemStatus status;
+
     private String name;
+
     private String title;
+
     private String content;
+
     private BigDecimal price;
+
     private String brandName;
+
     private LocalDateTime registeredAt;
     @Column(name="unregistered_at")
     private LocalDateTime unRegisteredAt;

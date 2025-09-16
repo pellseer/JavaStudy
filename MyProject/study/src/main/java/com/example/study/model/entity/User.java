@@ -1,5 +1,6 @@
 package com.example.study.model.entity;
 
+import com.example.study.model.enumclass.UserStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -22,14 +23,22 @@ import java.util.List;
 @Accessors(chain = true)
 @EntityListeners(AuditingEntityListener.class)
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String account;
+
     private String password;
-    private String status;
+
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
+
     private String email;
+
     private String phoneNumber;
+
     private LocalDateTime registeredAt;
     @Column(name = "unregistered_at")
     private LocalDateTime unRegisteredAt;
