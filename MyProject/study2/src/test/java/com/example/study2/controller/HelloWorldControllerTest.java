@@ -30,8 +30,6 @@ class HelloWorldControllerTest {
     public void helloWorld(){
 //        System.out.println("test");
         System.out.println(helloWorldController.helloWorld());
-
-
     }
 
     @Test
