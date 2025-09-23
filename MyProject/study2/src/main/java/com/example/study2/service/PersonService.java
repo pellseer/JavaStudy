@@ -1,17 +1,15 @@
 package com.example.study2.service;
 
-import com.example.study2.domain.Block;
+import com.example.study2.controller.dto.PersonDto;
 import com.example.study2.domain.Person;
-import com.example.study2.repository.BlockRepository;
+import com.example.study2.exception.PersonNotFoundException;
+import com.example.study2.exception.RenameNotPermittedException;
 import com.example.study2.repository.PersonRepository;
 import jakarta.transaction.Transactional;
-import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * author : smseo
@@ -31,20 +29,50 @@ public class PersonService {
         this.personRepository = personRepository;
     }
 
-    public List<Person> getPeopleExcludeBlocks(){
-        return personRepository.findByBlockIsNull();
-    }
-
     public List<Person> getPeopleByName(String name) {
         return personRepository.findByName(name);
     }
 
     @Transactional
     public Person getPerson(Long id){
-        Person person = personRepository.findById(id).get();
+        return personRepository.findById(id).orElse(null);
+    }
 
-        log.info("person : {}", person);
+    @Transactional
+    public void put(PersonDto personDto) {
+        Person person = new Person();
+        person.set(personDto);
+        person.setName(personDto.getName());
 
-        return person;
+        personRepository.save(person);
+    }
+
+    @Transactional
+    public void modify(Long id, PersonDto personDto){
+        Person person = personRepository.findById(id).orElseThrow(PersonNotFoundException::new);
+
+        if(!person.getName().equals(personDto.getName())){
+            throw new RenameNotPermittedException();
+        }
+
+        person.set(personDto);
+
+        personRepository.save(person);
+    }
+
+    @Transactional
+    public void modify(Long id, String name) {
+        Person person = personRepository.findById(id).orElseThrow(PersonNotFoundException::new);
+
+        person.setName(name);
+        personRepository.save(person);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        Person person = personRepository.findById(id).orElseThrow(PersonNotFoundException::new);
+
+        person.setDeleted(true);
+        personRepository.save(person);
     }
 }

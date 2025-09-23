@@ -7,12 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.InstanceOfAssertFactories.LOCAL_DATE;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 /**
  * author : smseo
@@ -29,73 +27,44 @@ class PersonRepositoryTest {
     private PersonRepository personRepository;
 
     @Test
-    public void crud(){
-        Person person = new Person();
-        person.setName("martin");
-        person.setAge(10);
-        person.setBloodType("A");
-
-        personRepository.save(person);
-
-        System.out.println(personRepository.findAll());
-
-        List<Person> people = personRepository.findAll();
+    public void findByName(){
+        List<Person> people = personRepository.findByName("tony");
         assertThat(people.size()).isEqualTo(1);
-        assertThat(people.get(0).getName()).isEqualTo("martin");
-        assertThat(people.get(0).getAge()).isEqualTo(10);
-        assertThat(people.get(0).getBloodType()).isEqualTo("A");
+
+        Person person = people.get(0);
+
+        assertAll(
+            () -> assertThat(person.getName()).isEqualTo("tony"),
+            () -> assertThat(person.getHobby()).isEqualTo("reading"),
+            () -> assertThat(person.getAddress()).isEqualTo("서울"),
+            () -> assertThat(person.getBirthday()).isEqualTo(Birthday.of(LocalDate.of(1991,7,10))),
+            () -> assertThat(person.getJob()).isEqualTo("officer"),
+            () -> assertThat(person.getPhoneNumber()).isEqualTo("010-1111-1112"),
+            () -> assertThat(person.isDeleted()).isEqualTo(false)
+        );
     }
 
     @Test
-    public void hashCodeAndEquals(){
-        Person person1 = new Person("martin", 10, "A");
-        Person person2 = new Person("martin", 10, "A");
-
-        System.out.println(person1.equals(person2));
-        System.out.println(person1.hashCode());
-        System.out.println(person2.hashCode());
-
-        Map<Person, Integer> map = new HashMap<>();
-        map.put(person1, person2.getAge());
-
-        System.out.println(map);
-        System.out.println(map.get(person2));
-
+    public void findByNameIfDeleted(){
+        List<Person> people = personRepository.findByName("andrew");
+        assertThat(people.size()).isEqualTo(0);
     }
 
     @Test
-    public void findByBloodType(){
-        givenPerson("martin", 10, "A");
-        givenPerson("david", 9, "B");
-        givenPerson("dennis", 8, "O");
-        givenPerson("sophia", 7, "AB");
-        givenPerson("benny", 6, "A");
-        givenPerson("john", 5, "A");
-
-        List<Person> result = personRepository.findByBloodType("A");
-        result.forEach(System.out::println);
+    public void findByMonthOfBirthday(){
+        List<Person> people = personRepository.findByMonthOfBirthday(7);
+        assertThat(people.size()).isEqualTo(2);
+        assertAll(
+            () -> assertThat(people.get(0).getName()).isEqualTo("david"),
+            () -> assertThat(people.get(1).getName()).isEqualTo("tony")
+        );
     }
 
     @Test
-    public void findByBirthdayBetween(){
-        givenPerson("martin", 10, "A", LocalDate.of(1991,8,15));
-        givenPerson("david", 9, "B", LocalDate.of(1992,7,15));
-        givenPerson("dennis", 8, "O", LocalDate.of(1993,1,15));
-        givenPerson("sophia", 7, "AB", LocalDate.of(1994,6,15));
-        givenPerson("benny", 6, "A", LocalDate.of(1993,8,30));
+    public void findPeopleDeleted(){
+        List<Person> people = personRepository.findPeopleDeleted();
 
-        List<Person> result = personRepository.findByMonthOfBirthday(8);
-        result.forEach(System.out::println);
-
-    }
-
-    private void givenPerson(String name, int age, String bloodType){
-        givenPerson(name, age, bloodType, null);
-    }
-
-    private void givenPerson(String name, int age, String bloodType, LocalDate birthday){
-        Person person = new Person(name, age, bloodType);
-        person.setBirthday(new Birthday(birthday));
-        personRepository.save(person);
+        assertThat(people.size()).isEqualTo(1);
+        assertThat(people.get(0).getName()).isEqualTo("andrew");
     }
 }

@@ -1,5 +1,9 @@
 package com.example.study2.controller;
 
+import com.example.study2.exception.dto.ErrorResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,5 +23,10 @@ public class HelloWorldController {
     @PostMapping("/api/helloWorld")
     public String helloWorld(){
         return "Hello World!";
+    }
+
+    @GetMapping("/api/helloException")
+    public String helloException(){
+        throw new RuntimeException("Hello RuntimeException");
     }
 }

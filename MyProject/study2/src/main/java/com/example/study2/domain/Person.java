@@ -1,11 +1,16 @@
 package com.example.study2.domain;
 
+import ch.qos.logback.core.util.StringUtil;
+import com.example.study2.controller.dto.PersonDto;
 import com.example.study2.domain.dto.Birthday;
+import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.validation.annotation.Validated;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.time.LocalDate;
 
@@ -23,21 +28,18 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Data
+@SQLRestriction("deleted = false")
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NonNull
+    @NotEmpty
+    @Column(nullable = false)
     private String name;
 
-    @NonNull
-    private int age;
-
     private String hobby;
-
-    @NonNull
-    private String bloodType;
 
     private String address;
 
@@ -47,10 +49,43 @@ public class Person {
 
     private String job;
 
-    @ToString.Exclude
     private String phoneNumber;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @ToString.Exclude
-    private Block block;
+    @ColumnDefault("0")
+    private boolean deleted;
+
+    public void set(PersonDto personDto){
+        if(!StringUtils.isEmpty(personDto.getHobby())){
+            this.setHobby(personDto.getHobby());
+        }
+
+        if(!StringUtils.isEmpty(personDto.getAddress())){
+            this.setAddress(personDto.getAddress());
+        }
+
+        if(!StringUtils.isEmpty(personDto.getJob())){
+            this.setJob(personDto.getJob());
+        }
+
+        if(!StringUtils.isEmpty(personDto.getPhoneNumber())){
+            this.setPhoneNumber(personDto.getPhoneNumber());
+        }
+
+        if(personDto.getBirthday() != null){
+            this.setBirthday(Birthday.of(personDto.getBirthday()));
+        }
+    }
+
+    public Integer getAge(){
+        if(this.birthday != null) {
+            return LocalDate.now().getYear() - this.birthday.getYearOfBirthday() + 1;
+        }
+        else{
+            return null;
+        }
+    }
+
+    public boolean isBirthdayToday(){
+        return LocalDate.now().equals(LocalDate.of(birthday.getYearOfBirthday(), birthday.getMonthOfBirthday(), birthday.getDayOfBirthday()));
+    }
 }
