@@ -7,6 +7,8 @@ import com.example.study2.exception.RenameNotPermittedException;
 import com.example.study2.repository.PersonRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +26,10 @@ import java.util.List;
 @Slf4j
 public class PersonService {
     private final PersonRepository personRepository;
+
+    public Page<Person> getAll(Pageable pageable){
+        return personRepository.findAll(pageable);
+    }
 
     public PersonService(PersonRepository personRepository) {
         this.personRepository = personRepository;

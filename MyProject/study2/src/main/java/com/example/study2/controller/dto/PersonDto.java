@@ -1,5 +1,7 @@
 package com.example.study2.controller.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +22,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor(staticName = "of")
 public class PersonDto {
+    @NotBlank(message = "이름은 필수값입니다.")
     private String name;
     private String hobby;
     private String address;

@@ -13,20 +13,21 @@ import org.mockito.ArgumentMatcher;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.*;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.ExecutionException;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.withinPercentage;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * author : smseo
@@ -43,6 +44,23 @@ class PersonServiceTest {
     private PersonService personService;
     @Mock
     private PersonRepository personRepository;
+
+    @Test
+    public void getAll(){
+        when(personRepository.findAll(any(Pageable.class)))
+                .thenReturn(new PageImpl<>(Lists.newArrayList(
+                        new Person("martin"),
+                        new Person("dennis"),
+                        new Person("tony")
+                )));
+
+        Page<Person> result = personService.getAll(PageRequest.of(0,3));
+        
+        assertThat(result.getNumberOfElements()).isEqualTo(3);
+        assertThat(result.getContent().get(0).getName()).isEqualTo("martin");
+        assertThat(result.getContent().get(1).getName()).isEqualTo("dennis");
+        assertThat(result.getContent().get(2).getName()).isEqualTo("tony");
+    }
 
     @Test
     public void getPeopleByName(){
@@ -155,7 +173,6 @@ class PersonServiceTest {
                     && equals(person.getJob(), "programmer")
                     && equals(person.getPhoneNumber(), "010-1111-1234");
         }
-
         private boolean equals(Object actual, Object expected){
             return expected.equals(actual);
         }
@@ -171,7 +188,6 @@ class PersonServiceTest {
                     && equals(person.getJob(), "programmer")
                     && equals(person.getPhoneNumber(), "010-1111-1234");
         }
-
         private boolean equals(Object actual, Object expected){
             return expected.equals(actual);
         }

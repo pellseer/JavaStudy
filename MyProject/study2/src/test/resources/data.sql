@@ -5,3 +5,10 @@ insert into person(name, year_of_birthday, month_of_birthday, day_of_birthday) v
 insert into person(name, year_of_birthday, month_of_birthday, day_of_birthday) values ('benny', 1995, 12, 23)
 insert into person(name, year_of_birthday, month_of_birthday, day_of_birthday, job, hobby, phone_number, address) values ('tony', 1991, 7, 10, 'officer', 'reading', '010-1111-1112', '서울')
 insert into person(name, deleted) values ('andrew', true)
+
+insert into groups(description) values ('friends')
+insert into groups(description) values ('partners')
+insert into groups(description) values ('coworkers')
+
+update person set group_id = 3 where  id = 1
+update person set group_id = 1 where  id = 2
